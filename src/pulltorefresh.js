@@ -13,6 +13,7 @@ const _defaults = {
   mainElement: 'body',
   triggerElement: 'body',
   ptrElement: '.ptr',
+  scrollContianer:'body',
   classPrefix: 'ptr--',
   cssProp: 'min-height',
   iconArrow: '&#8675;',
@@ -215,13 +216,13 @@ function _setupEvents() {
     mainElement.classList.toggle(`${classPrefix}top`, shouldPullToRefresh());
   }
 
-  window.addEventListener('touchend', _onTouchEnd);
-  window.addEventListener('touchstart', _onTouchStart);
-  window.addEventListener('touchmove', _onTouchMove, supportsPassive
+  _SETTINGS['scrollContianer'].addEventListener('touchend', _onTouchEnd);
+  _SETTINGS['scrollContianer'].addEventListener('touchstart', _onTouchStart);
+  _SETTINGS['scrollContianer'].addEventListener('touchmove', _onTouchMove, supportsPassive
     ? { passive: _SETTINGS.passive || false }
     : undefined);
 
-  window.addEventListener('scroll', _onScroll);
+  _SETTINGS['scrollContianer'].addEventListener('scroll', _onScroll);
 
   // Store event handlers to use for teardown later
   return {
@@ -287,7 +288,7 @@ export default {
       _SETTINGS[key] = options[key] || _defaults[key];
     });
 
-    const methods = ['mainElement', 'ptrElement', 'triggerElement'];
+    const methods = ['mainElement', 'ptrElement', 'triggerElement','scrollContianer'];
     methods.forEach((method) => {
       if (typeof _SETTINGS[method] === 'string') {
         _SETTINGS[method] = document.querySelector(_SETTINGS[method]);
@@ -304,12 +305,12 @@ export default {
     return {
       destroy() {
         // Teardown event listeners
-        window.removeEventListener('touchstart', handlers.onTouchStart);
-        window.removeEventListener('touchend', handlers.onTouchEnd);
-        window.removeEventListener('touchmove', handlers.onTouchMove, supportsPassive
+        _SETTINGS['scrollContianer'].removeEventListener('touchstart', handlers.onTouchStart);
+        _SETTINGS['scrollContianer'].removeEventListener('touchend', handlers.onTouchEnd);
+        _SETTINGS['scrollContianer'].removeEventListener('touchmove', handlers.onTouchMove, supportsPassive
           ? { passive: _SETTINGS.passive || false }
           : undefined);
-        window.removeEventListener('scroll', handlers.onScroll);
+        _SETTINGS['scrollContianer'].removeEventListener('scroll', handlers.onScroll);
 
         // Remove ptr element and style tag
         styleNode.parentNode.removeChild(styleNode);

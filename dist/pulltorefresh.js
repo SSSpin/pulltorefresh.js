@@ -20,7 +20,7 @@ var _defaults = {
   mainElement: 'body',
   triggerElement: 'body',
   ptrElement: '.ptr',
-  scrollContianer:'body',
+  scrollContainer:'body',
   classPrefix: 'ptr--',
   cssProp: 'min-height',
   iconArrow: '&#8675;',
@@ -231,13 +231,13 @@ function _setupEvents() {
     mainElement.classList.toggle((classPrefix + "top"), shouldPullToRefresh());
   }
 
-  _SETTINGS['scrollContianer'].addEventListener('touchend', _onTouchEnd);
-  _SETTINGS['scrollContianer'].addEventListener('touchstart', _onTouchStart);
-  _SETTINGS['scrollContianer'].addEventListener('touchmove', _onTouchMove, supportsPassive
+  _SETTINGS['scrollContainer'].addEventListener('touchend', _onTouchEnd);
+  _SETTINGS['scrollContainer'].addEventListener('touchstart', _onTouchStart);
+  _SETTINGS['scrollContainer'].addEventListener('touchmove', _onTouchMove, supportsPassive
     ? { passive: _SETTINGS.passive || false }
     : undefined);
 
-  _SETTINGS['scrollContianer'].addEventListener('scroll', _onScroll);
+  _SETTINGS['scrollContainer'].addEventListener('scroll', _onScroll);
 
   // Store event handlers to use for teardown later
   return {
@@ -307,7 +307,7 @@ var pulltorefresh = {
       _SETTINGS[key] = options[key] || _defaults[key];
     });
 
-    var methods = ['mainElement', 'ptrElement', 'triggerElement','scrollContianer'];
+    var methods = ['mainElement', 'ptrElement', 'triggerElement','scrollContainer'];
     methods.forEach(function (method) {
       if (typeof _SETTINGS[method] === 'string') {
         _SETTINGS[method] = document.querySelector(_SETTINGS[method]);
@@ -326,12 +326,12 @@ var pulltorefresh = {
     return {
       destroy: function destroy() {
         // Teardown event listeners
-        _SETTINGS['scrollContianer'].removeEventListener('touchstart', handlers.onTouchStart);
-        _SETTINGS['scrollContianer'].removeEventListener('touchend', handlers.onTouchEnd);
-        _SETTINGS['scrollContianer'].removeEventListener('touchmove', handlers.onTouchMove, supportsPassive
+        _SETTINGS['scrollContainer'].removeEventListener('touchstart', handlers.onTouchStart);
+        _SETTINGS['scrollContainer'].removeEventListener('touchend', handlers.onTouchEnd);
+        _SETTINGS['scrollContainer'].removeEventListener('touchmove', handlers.onTouchMove, supportsPassive
           ? { passive: _SETTINGS.passive || false }
           : undefined);
-        _SETTINGS['scrollContianer'].removeEventListener('scroll', handlers.onScroll);
+        _SETTINGS['scrollContainer'].removeEventListener('scroll', handlers.onScroll);
 
         // Remove ptr element and style tag
         styleNode.parentNode.removeChild(styleNode);

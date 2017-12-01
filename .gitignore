@@ -2,7 +2,7 @@
 node_modules
 dist/build.json
 bower_components
-
+package-lock.json
 tests/tests.js
 tests/index.html
 build
